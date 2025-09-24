@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BDWatch documents and analyzes human rights violations, political repression, and civic space in Bangladesh. Secure reporting, verified evidence, and policy-grade analysis.">
+    <meta name="keywords" content="Bangladesh human rights, political repression Bangladesh, human rights reports Bangladesh, OSINT Bangladesh, civic space Bangladesh">
+    <title>BDWatch — Independent Human Rights Watchdog for Bangladesh</title>
+    <meta property="og:title" content="BDWatch — Independent Human Rights Watchdog for Bangladesh">
+    <meta property="og:description" content="BDWatch documents and analyzes human rights violations, political repression, and civic space in Bangladesh. Secure reporting, verified evidence, and policy-grade analysis.">
+    <meta property="og:image" content="[Placeholder for BDWatch logo with tagline: “Independent. Evidence-driven. Bangladesh.”]">
+    <meta property="og:image:alt" content="BDWatch logo with tagline: “Independent. Evidence-driven. Bangladesh.”">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- AOS for animations -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <!-- Three.js for 3D elements -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.8;
+            color: #212529;
+            background-color: #f8f9fa;
+            overflow-x: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #007bff 0%, #00c6ff 100%);
+            color: white;
+            padding: 150px 0;
+            text-align: center;
+            position: relative;
+        }
+        #three-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .navbar {
+            background-color: rgba(33, 37, 41, 0.9) !important;
+            transition: background-color 0.3s ease;
+        }
+        .navbar.scrolled {
+            background-color: #212529 !important;
+        }
+        .cta-btn {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            border: none;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .impact-counter {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ff6b6b;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .card {
+            border: none;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            transition: transform 0.4s ease-in-out, box-shadow 0.4s;
+            border-radius: 15px;
+        }
+        .card:hover {
+            transform: rotateY(10deg) translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.25);
+        }
+        #what-we-do .card {
+            background: linear-gradient(135deg, #ffffff, #f0f4f8);
+            position: relative;
+            overflow: hidden;
+        }
+        #what-we-do .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #ff6b6b, #feca57);
+            transition: height 0.3s;
+        }
+        #what-we-do .card:hover::before {
+            height: 10px;
+        }
+        #what-we-do .card:nth-child(1) {
+            background: linear-gradient(135deg, #ff9ff3, #feca57);
+        }
+        #what-we-do .card:nth-child(2) {
+            background: linear-gradient(135deg, #48dbfb, #1dd1a1);
+        }
+        #what-we-do .card:nth-child(3) {
+            background: linear-gradient(135deg, #ff6b6b, #00c6ff);
+        }
+        #what-we-do .card:nth-child(4) {
+            background: linear-gradient(135deg, #feca57, #ff9ff3);
+        }
+        #what-we-do .card-title {
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        #what-we-do .card-text {
+            color: #fff;
+        }
+        #news .news-card {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            border-left: 5px solid #007bff;
+        }
+        #news .news-card:hover {
+            transform: translateY(-5px);
+        }
+        #news .news-date {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        footer {
+            background: linear-gradient(135deg, #212529 0%, #343a40 100%);
+            color: #fff;
+            padding: 60px 0 20px;
+        }
+        .social-icons a {
+            color: #fff;
+            margin: 0 12px;
+            font-size: 1.8rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .social-icons a:hover {
+            color: #feca57;
+            transform: rotate(360deg);
+        }
+        .form-control:focus {
+            border-color: #ff6b6b;
+            box-shadow: 0 0 0 0.25rem rgba(255,107,107,0.25);
+        }
+        .section-bg-multicolor {
+            background: linear-gradient(45deg, #ff9ff3, #feca57, #48dbfb, #1dd1a1);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .icon-3d {
+            transition: transform 0.5s;
+        }
+        .icon-3d:hover {
+            transform: perspective(500px) rotateX(20deg) rotateY(20deg);
+        }
+        h1, h2, h4, h5 {
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        p.lead {
+            font-size: 1.25rem;
+            font-weight: 300;
+        }
+        .lang-toggle {
+            cursor: pointer;
+            margin-left: 15px;
+            color: #fff;
+        }
+        /* Google Translate Widget Style */
+        #google_translate_element {
+            margin-left: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">BDWatch</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#mission">Mission</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#what-we-do">What We Do</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#our-approach">Approach</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#priority-focus">Focus Areas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#news">News</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#how-you-can-help">Help Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+                <div id="google_translate_element"></div>
+            </div>
+        </div>
+    </nav>
+
+    <header data-aos="zoom-in">
+        <canvas id="three-canvas"></canvas>
+        <div class="container position-relative">
+            <h1 class="display-3 fw-bold">BDWatch — Bangladesh Watch</h1>
+            <p class="lead fs-4">Tracking human rights violations, political repression, and civic space</p>
+            <p class="fs-5">Independent. Non-partisan. Evidence-driven.</p>
+            <p class="fs-5 bn-text" style="display: none;">বাংলাদেশ ওয়াচ — মানবাধিকার লঙ্ঘন ও রাজনৈতিক দমনের নিরপেক্ষ পর্যবেক্ষণ।</p>
+            <a href="#ctas" class="btn cta-btn btn-lg">Get Involved</a>
+        </div>
+    </header>
+
+    <section id="mission" class="py-5 section-bg-multicolor" data-aos="fade-up">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold text-white">Mission</h2>
+            <p class="text-center lead text-white">BDWatch is a civil society–led watchdog dedicated to documenting human rights violations and threats to democracy in Bangladesh. We collect credible evidence, protect sources, and transform data into practical actions for accountability and reform.</p>
+        </div>
+    </section>
+
+    <section id="what-we-do" class="bg-light py-5" data-aos="fade-up">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold">What We Do</h2>
+            <div class="row g-4">
+                <div class="col-md-3" data-aos="flip-left">
+                    <div class="card h-100 p-4">
+                        <h5 class="card-title fw-bold">Monitor & Verify</h5>
+                        <p class="card-text">Real-time monitoring of incidents affecting life, liberty, assembly, speech, and press. Open-source intelligence (OSINT), field reporting, and partner submissions. Multi-step verification and chain-of-custody for digital evidence.</p>
+                    </div>
+                </div>
+                <div class="col-md-3" data-aos="flip-left" data-aos-delay="100">
+                    <div class="card h-100 p-4">
+                        <h5 class="card-title fw-bold">Document & Preserve</h5>
+                        <p class="card-text">Secure archive of testimonies, media, legal records, and geolocated proof. Standardized incident coding for trend analysis and longitudinal research. Survivor-centric protocols and trauma-informed interviewing.</p>
+                    </div>
+                </div>
+                <div class="col-md-3" data-aos="flip-left" data-aos-delay="200">
+                    <div class="card h-100 p-4">
+                        <h5 class="card-title fw-bold">Analyze & Report</h5>
+                        <p class="card-text">Monthly situation briefs and deep-dive reports on patterns and perpetrators. Datasets and dashboards for researchers, journalists, and policymakers. Early-warning indicators for escalation and mass-atrocity risk.</p>
+                    </div>
+                </div>
+                <div class="col-md-3" data-aos="flip-left" data-aos-delay="300">
+                    <div class="card h-100 p-4">
+                        <h5 class="card-title fw-bold">Advocate & Engage</h5>
+                        <p class="card-text">Submissions to national bodies and international mechanisms. Policy recommendations aligned with international human rights law. Training for civil society on documentation, safety, and digital hygiene.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="our-approach" class="py-5 section-bg-multicolor" data-aos="fade-up">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold text-white">Our Approach</h2>
+            <div class="row g-4 text-center">
+                <div class="col-md-4" data-aos="zoom-in">
+                    <i class="fas fa-shield-alt fa-3x mb-3 text-warning icon-3d"></i>
+                    <h4 class="fw-bold text-white">Independence</h4>
+                    <p class="text-white">No party or government affiliation. Funding transparency.</p>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                    <i class="fas fa-check-circle fa-3x mb-3 text-success icon-3d"></i>
+                    <h4 class="fw-bold text-white">Rigor</h4>
+                    <p class="text-white">Evidence standards aligned with Berkeley Protocol on Digital Open Source Investigations and best-practice chain-of-custody.</p>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                    <i class="fas fa-lock fa-3x mb-3 text-danger icon-3d"></i>
+                    <h4 class="fw-bold text-white">Safety</h4>
+                    <p class="text-white">Confidential reporting, secure communications, and do-no-harm principles.</p>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+                    <i class="fas fa-heart fa-3x mb-3 text-info icon-3d"></i>
+                    <h4 class="fw-bold text-white">Dignity</h4>
+                    <p class="text-white">Survivor consent, anonymity by default, and respectful storytelling.</p>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="400">
+                    <i class="fas fa-language fa-3x mb-3 text-purple icon-3d"></i>
+                    <h4 class="fw-bold text-white">Bilingual Access</h4>
+                    <p class="text-white">Outputs in English and Bangla to maximize reach.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="priority-focus" class="bg-light py-5" data-aos="fade-up">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold">Priority Focus Areas (2025)</h2>
+            <ul class="list-group list-group-flush mx-auto" style="max-width: 800px;">
+                <li class="list-group-item">Extrajudicial killings, enforced disappearances, custodial torture.</li>
+                <li class="list-group-item">Suppression of peaceful assembly, association, and expression.</li>
+                <li class="list-group-item">Attacks on journalists, academics, students, and minorities.</li>
+                <li class="list-group-item">Election-related violence and misuse of security laws.</li>
+                <li class="list-group-item">Digital repression, surveillance, and internet shutdowns.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="news" class="py-5 bg-light" data-aos="fade-up">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold">BDWatch News Channel</h2>
+            <p class="text-center lead mb-5">Stay updated with the latest verified reports, analyses, and breaking news on human rights in Bangladesh. Our news channel delivers evidence-based journalism directly from the field.</p>
+            <h3 class="text-center mb-4">Daily Human Rights News from Bangladesh</h3>
+            <div class="row g-4" id="bangladesh-news-container">
+                <div class="col-md-6" data-aos="fade-right">
+                    <div class="card news-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Bangladesh: Year since Hasina Fled, Rights Challenges Abound</h5>
+                            <p class="news-date">July 30, 2025</p>
+                            <p class="card-text">The interim Bangladesh government of Mohammed Yunus is falling short in implementing its challenging human rights agenda a year after Sheikh Hasina fled the country.</p>
+                            <a href="https://www.hrw.org/news/2025/07/30/bangladesh-year-since-hasina-fled-rights-challenges-abound" class="btn btn-primary" target="_blank">Read Full Story</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left">
+                    <div class="card news-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Nepal, Bangladesh, Sri Lanka: Is South Asia fertile for Gen Z revolutions?</h5>
+                            <p class="news-date">September 16, 2025</p>
+                            <p class="card-text">The contexts and triggers were different, but analysts say there's a common thread tying South Asia's youth revolts, including ongoing human rights concerns in Bangladesh.</p>
+                            <a href="https://www.aljazeera.com/features/2025/9/16/sri-lanka-bangladesh-nepal-is-south-asia-fertile-for-gen-z-revolutions" class="btn btn-primary" target="_blank">Read Full Story</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-right" data-aos-delay="100">
+                    <div class="card news-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Bangladesh Falters on Rights Reform</h5>
+                            <p class="news-date">July 31, 2025</p>
+                            <p class="card-text">Human Rights Watch urged the interim government to end arbitrary arrests, disband abusive forces like the Rapid Action Battalion, and ensure accountability for past abuses.</p>
+                            <a href="https://liberties.aljazeera.com/en/bangladesh-falters-on-rights-reform/" class="btn btn-primary" target="_blank">Read Full Story</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left" data-aos-delay="100">
+                    <div class="card news-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Human rights in Bangladesh</h5>
+                            <p class="news-date">Ongoing (2025 Report)</p>
+                            <p class="card-text">Religious minorities and Indigenous Peoples faced violence. Garment workers continued to suffer intimidation, harassment and repression of their rights to organize.</p>
+                            <a href="https://www.amnesty.org/en/location/asia-and-the-pacific/south-asia/bangladesh/report-bangladesh/" class="btn btn-primary" target="_blank">Read Full Story</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-right" data-aos-delay="200">
+                    <div class="card news-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Bangladesh protests probe reveals top leaders led brutal repression</h5>
+                            <p class="news-date">February 12, 2025</p>
+                            <p class="card-text">Alleged crimes in Bangladesh against the student-led protest included "hundreds of extrajudicial killings, extensive arbitrary arrest and detention, and widespread torture."</p>
+                            <a href="https://news.un.org/en/story/2025/02/1160046" class="btn btn-primary" target="_blank">Read Full Story</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h3 class="text-center mt-5 mb-4">Top Global Human Rights News</h3>
+            <div class="row g-4" id="world-news-container">
+                <div class="col-md-6" data-aos="fade-right">
+                    <div class="card news-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">30 years of advancing gender equality: Achievements, setbacks and the road ahead</h5>
+                            <p class="news-date">September 22, 2025</p>
+                            <p class="card-text">Their report, 2025 Gender Snapshot, warns that 10 per cent of women live in extreme poverty and that 351 million women and girls could still be pushed into poverty by 2030.</p>
+                            <a href="https://news.un.org/en/story/2025/09/1165892" class="btn btn-primary" target="_blank">Read Full Story</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left">
+                    <div class="card news-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Gaza: Top independent rights probe alleges Israel committed genocide</h5>
+                            <p class="news-date">September 16, 2025</p>
+                            <p class="card-text">Israeli strike in Doha marks 'alarming escalation', warns top UN official, in call to uphold diplomatic norms during ongoing human rights crisis.</p>
+                            <a href="https://news.un.org/en/story/2025/09/1165856" class="btn btn-primary" target="_blank">Read Full Story</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-right" data-aos-delay="100">
+                    <div class="card news-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">World News in Brief: Gaza and Nicaragua human rights update</h5>
+                            <p class="news-date">September 23, 2025</p>
+                            <p class="card-text">The UN agency for Palestine refugees, UNRWA, has confirmed that between 11 and 16 September, 12 of its staff were killed in Gaza amid escalating violations.</p>
+                            <a href="https://news.un.org/en/story/2025/09/1165921" class="btn btn-primary" target="_blank">Read Full Story</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left" data-aos-delay="100">
+                    <div class="card news-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">UN Human Rights Chief: "We are failing the people of Gaza"</h5>
+                            <p class="news-date">September 8, 2025</p>
+                            <p class="card-text">UN Human Rights Chief warns of failure to protect civilians in Gaza, calling for immediate ceasefire and accountability for violations.</p>
+                            <a href="https://www.un.org/unispal/document/ohchr-remarks-08sep25/" class="btn btn-primary" target="_blank">Read Full Story</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-right" data-aos-delay="200">
+                    <div class="card news-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Human Rights Watch | Defending Human Rights Worldwide</h5>
+                            <p class="news-date">September 19, 2025</p>
+                            <p class="card-text">EU's New India Strategy Overlooks Modi's Repression; Rights Should Guide Welfare 'Reform' Debate in Germany – global updates on pressing human rights issues.</p>
+                            <a href="https://www.hrw.org/" class="btn btn-primary" target="_blank">Read Full Story</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-5">
+                <a href="#" class="btn cta-btn btn-lg">Subscribe to News Alerts</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-you-can-help" class="py-5 section-bg-multicolor" data-aos="fade-up">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold text-white">How You Can Help</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <h4 class="fw-bold text-white">Report an Incident (Secure)</h4>
+                    <p class="text-white">Submit confidential information, media, or testimony. We never publish identifiable data without explicit consent.</p>
+                    <button class="btn cta-btn" data-bs-toggle="modal" data-bs-target="#reportModal">Report Now</button>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="fw-bold text-white">Partner With Us</h4>
+                    <p class="text-white">Universities, newsrooms, NGOs, and bar associations.</p>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="fw-bold text-white">Volunteer Your Skills</h4>
+                    <p class="text-white">Research, data science, translation, design, legal review.</p>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="fw-bold text-white">Support the Work</h4>
+                    <p class="text-white">Your contribution sustains independent monitoring and survivor services.</p>
+                    <a href="https://www.paypal.com/donate?hosted_button_id=EXAMPLE" class="btn cta-btn" target="_blank">Donate</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ctas" class="text-center py-5 bg-primary text-white" data-aos="fade-up">
+        <div class="container">
+            <h2 class="mb-4 fw-bold">Take Action Today</h2>
+            <a href="#reportModal" class="btn cta-btn m-2" data-bs-toggle="modal" data-bs-target="#reportModal">Report Securely</a>
+            <a href="#news" class="btn cta-btn m-2">Latest News</a>
+            <a href="https://www.paypal.com/donate?hosted_button_id=EXAMPLE" class="btn cta-btn m-2" target="_blank">Support Our Work</a>
+        </div>
+    </section>
+
+    <section id="impact" class="bg-light py-5" data-aos="fade-up">
+        <div class="container text-center">
+            <h2 class="mb-5 fw-bold">Our Impact</h2>
+            <div class="row g-4">
+                <div class="col-md-3" data-aos="bounce-in">
+                    <div class="impact-counter" id="incidents-logged">0</div>
+                    <p class="fw-bold">Incidents Logged</p>
+                </div>
+                <div class="col-md-3" data-aos="bounce-in" data-aos-delay="100">
+                    <div class="impact-counter" id="verified-cases">0</div>
+                    <p class="fw-bold">Verified Cases Published</p>
+                </div>
+                <div class="col-md-3" data-aos="bounce-in" data-aos-delay="200">
+                    <div class="impact-counter" id="districts-covered">0/64</div>
+                    <p class="fw-bold">Districts Covered</p>
+                </div>
+                <div class="col-md-3" data-aos="bounce-in" data-aos-delay="300">
+                    <div class="impact-counter" id="partners">0</div>
+                    <p class="fw-bold">Partner Organizations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="safeguards" class="py-5 section-bg-multicolor" data-aos="fade-up">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold text-white">Safeguards & Ethics</h2>
+            <div class="accordion" id="safeguardsAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true">
+                            Source Protection
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show">
+                        <div class="accordion-body">
+                            PGP/SecureDrop options; zero-knowledge storage for sensitive material.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                            Verification
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            Triangulation across witness accounts, metadata, and OSINT.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                            Right of Reply
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            Named institutions receive a structured opportunity to respond.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                            Correction Policy
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            Transparent errata for any material error.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="latest-updates" class="bg-light py-5" data-aos="fade-up">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold">Latest Updates</h2>
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="slide-up">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-bold">Monthly Human Rights Brief — September 2025</h5>
+                            <p class="card-text">Key trends, heat map, and legal developments.</p>
+                            <a href="https://via.placeholder.com/brief.pdf" class="btn cta-btn" target="_blank">Read the Brief →</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="slide-up" data-aos-delay="100">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-bold">Special Report: Campus Violence & Academic Freedom</h5>
+                            <p class="card-text">Patterns, actors, and recommendations.</p>
+                            <a href="https://via.placeholder.com/report.pdf" class="btn cta-btn" target="_blank">Open Report →</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="slide-up" data-aos-delay="200">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-bold">Data Note: Internet Disruptions & Protest Cycles</h5>
+                            <p class="card-text">Correlations and early-warning signals.</p>
+                            <a href="https://via.placeholder.com/data" class="btn cta-btn" target="_blank">Explore the Data →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-5 section-bg-multicolor" data-aos="fade-up">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold text-white">Contact & Secure Reporting</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <p class="text-white"><strong>Email (general):</strong> <a href="mailto:info@bdwatch.org" class="text-light">info@bdwatch.org</a></p>
+                    <p class="text-white"><strong>Media & Partnerships:</strong> <a href="mailto:partners@bdwatch.org" class="text-light">partners@bdwatch.org</a></p>
+                    <p class="text-white"><strong>Legal/Litigation Support:</strong> <a href="mailto:legal@bdwatch.org" class="text-light">legal@bdwatch.org</a></p>
+                    <p class="text-white"><strong>Encrypted tip line:</strong> PGP key & SecureDrop details available <a href="https://via.placeholder.com/securedrop" class="text-light">here</a>.</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="text-white"><strong>Office:</strong> Dhaka & New York (remote-first).</p>
+                    <p class="text-white"><strong>Business hours:</strong> Mon–Fri, 09:00–18:00 local.</p>
+                    <div class="social-icons text-center">
+                        <a href="https://facebook.com/bdwatch" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://x.com/bdwatch" target="_blank"><i class="fab fa-x-twitter"></i></a>
+                        <a href="https://linkedin.com/company/bdwatch" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://youtube.com/bdwatch" target="_blank"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-5">
+                <h4 class="text-center fw-bold text-white">Subscribe to Our Newsletter</h4>
+                <form class="d-flex justify-content-center" action="https://formspree.io/f/yourformid" method="POST">
+                    <input type="email" name="email" class="form-control w-50 me-2" placeholder="Enter your email" required>
+                    <button type="submit" class="btn cta-btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="transparency" class="bg-light py-5" data-aos="fade-up">
+        <div class="container text-center">
+            <h2 class="mb-4 fw-bold">Transparency</h2>
+            <p class="lead">Annual narrative & financial reports. Conflict-of-interest and funding disclosure statements. Data use, retention, and takedown policy.</p>
+            <p class="lead"><strong>Legal notices:</strong> BDWatch is an independent, non-governmental initiative. Content is provided for public interest reporting and research. Nothing on this site constitutes legal advice.</p>
+        </div>
+    </section>
+
+    <footer class="text-center">
+        <p>&copy; BDWatch. All Rights Reserved.</p>
+        <p>“BDWatch,” “Bangladesh Watch,” and all associated marks are service marks used for public-interest monitoring and reporting. Reproduction requires prior permission except for fair, non-commercial use with attribution: BDWatch.</p>
+    </footer>
+
+    <!-- Modal for Secure Report -->
+    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reportModalLabel">Secure Incident Report</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="https://formspree.io/f/yourformid" method="POST">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name (Optional)</label>
+                            <input type="text" class="form-control" id="name" name="name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email (Optional)</label>
+                            <input type="email" class="form-control" id="email" name="email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="incident" class="form-label">Incident Description</label>
+                            <textarea class="form-control" id="incident" name="incident" rows="5" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="file" class="form-label">Upload Evidence (Optional)</label>
+                            <input type="file" class="form-control" id="file" name="file">
+                        </div>
+                        <button type="submit" class="btn cta-btn">Submit Securely</button>
+                    </form>
+                    <p class="mt-3 small">All submissions are encrypted and anonymous by default.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- AOS JS -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <!-- Google Translate -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en', autoDisplay: true}, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script>
+        AOS.init({ duration: 1200, easing: 'ease-in-out-back' });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a.nav-link').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Dynamic counters
+        function animateCounter(id, start, end, duration) {
+            let current = start;
+            const range = end - start;
+            const increment = end > start ? 1 : -1;
+            const stepTime = Math.abs(Math.floor(duration / range));
+            const obj = document.getElementById(id);
+            const timer = setInterval(() => {
+                current += increment;
+                obj.textContent = current;
+                if (current === end) {
+                    clearInterval(timer);
+                }
+            }, stepTime);
+        }
+
+        // Trigger counters on scroll into view
+        const impactSection = document.getElementById('impact');
+        const observer = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+                animateCounter('incidents-logged', 0, 150, 2000);
+                animateCounter('verified-cases', 0, 75, 2000);
+                animateCounter('partners', 0, 20, 2000);
+                document.getElementById('districts-covered').textContent = '45/64';
+                observer.disconnect();
+            }
+        });
+        observer.observe(impactSection);
+
+        // Basic language toggle (placeholder; full implementation needs content duplication)
+        function toggleLanguage() {
+            const bnTexts = document.querySelectorAll('.bn-text');
+            bnTexts.forEach(text => {
+                text.style.display = text.style.display === 'none' ? 'block' : 'none';
+            });
+        }
+
+        // 3D Background with Three.js
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
+        const material = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true });
+        const torusKnot = new THREE.Mesh(geometry, material);
+        scene.add(torusKnot);
+
+        camera.position.z = 30;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            torusKnot.rotation.x += 0.005;
+            torusKnot.rotation.y += 0.005;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

@@ -8,11 +8,11 @@
     <title>BDWatch — Independent Human Rights Watchdog for Bangladesh</title>
     <meta property="og:title" content="BDWatch — Independent Human Rights Watchdog for Bangladesh">
     <meta property="og:description" content="BDWatch documents and analyzes human rights violations, political repression, and civic space in Bangladesh. Secure reporting, verified evidence, and policy-grade analysis.">
-    <meta property="og:image" content="[Placeholder for BDWatch logo with tagline: “Independent. Evidence-driven. Bangladesh.”]">
-    <meta property="og:image:alt" content="BDWatch logo with tagline: “Independent. Evidence-driven. Bangladesh.”">
-    <!-- Bootstrap CSS -->
+    <meta property="og:image" content="[Placeholder for BDWatch logo with tagline: 'Independent. Evidence-driven. Bangladesh.']">
+    <meta property="og:image:alt" content="BDWatch logo with tagline: 'Independent. Evidence-driven. Bangladesh.'">
+    <!-- Latest Bootstrap CSS (v5.3.3) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- Font Awesome -->
+    <!-- Font Awesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -20,7 +20,14 @@
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <!-- Three.js for 3D elements -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- LazyLoad for optimization -->
+    <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
     <style>
+        :root {
+            --primary-color: #007bff;
+            --accent-color: #ff6b6b;
+            --gradient-bg: linear-gradient(45deg, #ff9ff3, #feca57, #48dbfb, #1dd1a1);
+        }
         body {
             font-family: 'Roboto', sans-serif;
             line-height: 1.8;
@@ -29,7 +36,7 @@
             overflow-x: hidden;
         }
         header {
-            background: linear-gradient(135deg, #007bff 0%, #00c6ff 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, #00c6ff 100%);
             color: white;
             padding: 150px 0;
             text-align: center;
@@ -52,7 +59,7 @@
             background-color: #212529 !important;
         }
         .cta-btn {
-            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            background: linear-gradient(45deg, var(--accent-color), #feca57);
             border: none;
             padding: 12px 24px;
             font-size: 1.1rem;
@@ -65,7 +72,7 @@
         .impact-counter {
             font-size: 3rem;
             font-weight: 700;
-            color: #ff6b6b;
+            color: var(--accent-color);
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .card {
@@ -75,13 +82,40 @@
             border-radius: 15px;
         }
         .card:hover {
-            transform: rotateY(10deg) translateY(-10px);
+            transform: translateY(-10px);
             box-shadow: 0 12px 24px rgba(0,0,0,0.25);
         }
         #what-we-do .card {
-            background: linear-gradient(135deg, #ffffff, #f0f4f8);
             position: relative;
             overflow: hidden;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        #what-we-do .card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        #what-we-do .card-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            transition: color 0.3s;
+        }
+        #what-we-do .card:hover .card-icon {
+            color: #0056b3;
+        }
+        #what-we-do .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #212529;
+        }
+        #what-we-do .card-text {
+            font-size: 1rem;
+            color: #6c757d;
         }
         #what-we-do .card::before {
             content: '';
@@ -90,34 +124,13 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(90deg, #ff6b6b, #feca57);
-            transition: height 0.3s;
-        }
-        #what-we-do .card:hover::before {
-            height: 10px;
-        }
-        #what-we-do .card:nth-child(1) {
-            background: linear-gradient(135deg, #ff9ff3, #feca57);
-        }
-        #what-we-do .card:nth-child(2) {
-            background: linear-gradient(135deg, #48dbfb, #1dd1a1);
-        }
-        #what-we-do .card:nth-child(3) {
-            background: linear-gradient(135deg, #ff6b6b, #00c6ff);
-        }
-        #what-we-do .card:nth-child(4) {
-            background: linear-gradient(135deg, #feca57, #ff9ff3);
-        }
-        #what-we-do .card-title {
-            color: #fff;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-        }
-        #what-we-do .card-text {
-            color: #fff;
+            background: var(--gradient-bg);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
         }
         #news .news-card {
             background: linear-gradient(135deg, #ffffff, #f8f9fa);
-            border-left: 5px solid #007bff;
+            border-left: 5px solid var(--primary-color);
         }
         #news .news-card:hover {
             transform: translateY(-5px);
@@ -142,11 +155,11 @@
             transform: rotate(360deg);
         }
         .form-control:focus {
-            border-color: #ff6b6b;
+            border-color: var(--accent-color);
             box-shadow: 0 0 0 0.25rem rgba(255,107,107,0.25);
         }
         .section-bg-multicolor {
-            background: linear-gradient(45deg, #ff9ff3, #feca57, #48dbfb, #1dd1a1);
+            background: var(--gradient-bg);
             background-size: 400% 400%;
             animation: gradientAnimation 15s ease infinite;
         }
@@ -174,9 +187,36 @@
             margin-left: 15px;
             color: #fff;
         }
-        /* Google Translate Widget Style */
         #google_translate_element {
             margin-left: 15px;
+        }
+        .news-loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+        }
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header {
+                padding: 100px 0;
+            }
+            .impact-counter {
+                font-size: 2rem;
+            }
+            #what-we-do .card {
+                padding: 20px 15px;
+            }
+            #what-we-do .card-icon {
+                font-size: 2.5rem;
+            }
+            #what-we-do .card-title {
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>
@@ -225,28 +265,40 @@
         <div class="container">
             <h2 class="text-center mb-5 fw-bold">What We Do</h2>
             <div class="row g-4">
-                <div class="col-md-3" data-aos="flip-left">
-                    <div class="card h-100 p-4">
-                        <h5 class="card-title fw-bold">Monitor & Verify</h5>
-                        <p class="card-text">Real-time monitoring of incidents affecting life, liberty, assembly, speech, and press. Open-source intelligence (OSINT), field reporting, and partner submissions. Multi-step verification and chain-of-custody for digital evidence.</p>
+                <div class="col-md-3 col-sm-6" data-aos="flip-left">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-search card-icon"></i>
+                            <h5 class="card-title fw-bold">Monitor & Verify</h5>
+                            <p class="card-text">Real-time tracking of incidents impacting life, liberty, assembly, speech, and press using open-source intelligence (OSINT), field reports, and partner submissions with rigorous multi-step verification.</p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-3" data-aos="flip-left" data-aos-delay="100">
-                    <div class="card h-100 p-4">
-                        <h5 class="card-title fw-bold">Document & Preserve</h5>
-                        <p class="card-text">Secure archive of testimonies, media, legal records, and geolocated proof. Standardized incident coding for trend analysis and longitudinal research. Survivor-centric protocols and trauma-informed interviewing.</p>
+                <div class="col-md-3 col-sm-6" data-aos="flip-left" data-aos-delay="100">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-archive card-icon"></i>
+                            <h5 class="card-title fw-bold">Document & Preserve</h5>
+                            <p class="card-text">Securely archiving testimonies, media, and geolocated evidence with standardized coding for trend analysis, ensuring survivor-centric protocols and trauma-informed methods.</p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-3" data-aos="flip-left" data-aos-delay="200">
-                    <div class="card h-100 p-4">
-                        <h5 class="card-title fw-bold">Analyze & Report</h5>
-                        <p class="card-text">Monthly situation briefs and deep-dive reports on patterns and perpetrators. Datasets and dashboards for researchers, journalists, and policymakers. Early-warning indicators for escalation and mass-atrocity risk.</p>
+                <div class="col-md-3 col-sm-6" data-aos="flip-left" data-aos-delay="200">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-chart-line card-icon"></i>
+                            <h5 class="card-title fw-bold">Analyze & Report</h5>
+                            <p class="card-text">Producing monthly briefs, in-depth reports, and dashboards for researchers and policymakers, with early-warning indicators for escalation and mass-atrocity risks.</p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-3" data-aos="flip-left" data-aos-delay="300">
-                    <div class="card h-100 p-4">
-                        <h5 class="card-title fw-bold">Advocate & Engage</h5>
-                        <p class="card-text">Submissions to national bodies and international mechanisms. Policy recommendations aligned with international human rights law. Training for civil society on documentation, safety, and digital hygiene.</p>
+                <div class="col-md-3 col-sm-6" data-aos="flip-left" data-aos-delay="300">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-handshake card-icon"></i>
+                            <h5 class="card-title fw-bold">Advocate & Engage</h5>
+                            <p class="card-text">Submitting evidence to national and international bodies, offering policy recommendations, and training civil society on documentation and digital security.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -260,17 +312,17 @@
                 <div class="col-md-4" data-aos="zoom-in">
                     <i class="fas fa-shield-alt fa-3x mb-3 text-warning icon-3d"></i>
                     <h4 class="fw-bold text-white">Independence</h4>
-                    <p class="text-white">No party or government affiliation. Funding transparency.</p>
+                    <p class="text-white">No party or government affiliation. Transparent funding.</p>
                 </div>
                 <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
                     <i class="fas fa-check-circle fa-3x mb-3 text-success icon-3d"></i>
                     <h4 class="fw-bold text-white">Rigor</h4>
-                    <p class="text-white">Evidence standards aligned with Berkeley Protocol on Digital Open Source Investigations and best-practice chain-of-custody.</p>
+                    <p class="text-white">Evidence standards aligned with Berkeley Protocol on Digital Open Source Investigations.</p>
                 </div>
                 <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
                     <i class="fas fa-lock fa-3x mb-3 text-danger icon-3d"></i>
                     <h4 class="fw-bold text-white">Safety</h4>
-                    <p class="text-white">Confidential reporting, secure communications, and do-no-harm principles.</p>
+                    <p class="text-white">Confidential reporting and secure communications with do-no-harm principles.</p>
                 </div>
                 <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
                     <i class="fas fa-heart fa-3x mb-3 text-info icon-3d"></i>
@@ -280,7 +332,7 @@
                 <div class="col-md-4" data-aos="zoom-in" data-aos-delay="400">
                     <i class="fas fa-language fa-3x mb-3 text-purple icon-3d"></i>
                     <h4 class="fw-bold text-white">Bilingual Access</h4>
-                    <p class="text-white">Outputs in English and Bangla to maximize reach.</p>
+                    <p class="text-white">Content in English and Bangla to maximize accessibility.</p>
                 </div>
             </div>
         </div>
@@ -304,110 +356,13 @@
             <h2 class="text-center mb-5 fw-bold">BDWatch News Channel</h2>
             <p class="text-center lead mb-5">Stay updated with the latest verified reports, analyses, and breaking news on human rights in Bangladesh. Our news channel delivers evidence-based journalism directly from the field.</p>
             <h3 class="text-center mb-4">Daily Human Rights News from Bangladesh</h3>
-            <div class="row g-4" id="bangladesh-news-container">
-                <div class="col-md-6" data-aos="fade-right">
-                    <div class="card news-card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Bangladesh: Year since Hasina Fled, Rights Challenges Abound</h5>
-                            <p class="news-date">July 30, 2025</p>
-                            <p class="card-text">The interim Bangladesh government of Mohammed Yunus is falling short in implementing its challenging human rights agenda a year after Sheikh Hasina fled the country.</p>
-                            <a href="https://www.hrw.org/news/2025/07/30/bangladesh-year-since-hasina-fled-rights-challenges-abound" class="btn btn-primary" target="_blank">Read Full Story</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6" data-aos="fade-left">
-                    <div class="card news-card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Nepal, Bangladesh, Sri Lanka: Is South Asia fertile for Gen Z revolutions?</h5>
-                            <p class="news-date">September 16, 2025</p>
-                            <p class="card-text">The contexts and triggers were different, but analysts say there's a common thread tying South Asia's youth revolts, including ongoing human rights concerns in Bangladesh.</p>
-                            <a href="https://www.aljazeera.com/features/2025/9/16/sri-lanka-bangladesh-nepal-is-south-asia-fertile-for-gen-z-revolutions" class="btn btn-primary" target="_blank">Read Full Story</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6" data-aos="fade-right" data-aos-delay="100">
-                    <div class="card news-card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Bangladesh Falters on Rights Reform</h5>
-                            <p class="news-date">July 31, 2025</p>
-                            <p class="card-text">Human Rights Watch urged the interim government to end arbitrary arrests, disband abusive forces like the Rapid Action Battalion, and ensure accountability for past abuses.</p>
-                            <a href="https://liberties.aljazeera.com/en/bangladesh-falters-on-rights-reform/" class="btn btn-primary" target="_blank">Read Full Story</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6" data-aos="fade-left" data-aos-delay="100">
-                    <div class="card news-card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Human rights in Bangladesh</h5>
-                            <p class="news-date">Ongoing (2025 Report)</p>
-                            <p class="card-text">Religious minorities and Indigenous Peoples faced violence. Garment workers continued to suffer intimidation, harassment and repression of their rights to organize.</p>
-                            <a href="https://www.amnesty.org/en/location/asia-and-the-pacific/south-asia/bangladesh/report-bangladesh/" class="btn btn-primary" target="_blank">Read Full Story</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6" data-aos="fade-right" data-aos-delay="200">
-                    <div class="card news-card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Bangladesh protests probe reveals top leaders led brutal repression</h5>
-                            <p class="news-date">February 12, 2025</p>
-                            <p class="card-text">Alleged crimes in Bangladesh against the student-led protest included "hundreds of extrajudicial killings, extensive arbitrary arrest and detention, and widespread torture."</p>
-                            <a href="https://news.un.org/en/story/2025/02/1160046" class="btn btn-primary" target="_blank">Read Full Story</a>
-                        </div>
-                    </div>
+            <div class="news-loading" id="news-loading">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading news...</span>
                 </div>
             </div>
-            <h3 class="text-center mt-5 mb-4">Top Global Human Rights News</h3>
-            <div class="row g-4" id="world-news-container">
-                <div class="col-md-6" data-aos="fade-right">
-                    <div class="card news-card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">30 years of advancing gender equality: Achievements, setbacks and the road ahead</h5>
-                            <p class="news-date">September 22, 2025</p>
-                            <p class="card-text">Their report, 2025 Gender Snapshot, warns that 10 per cent of women live in extreme poverty and that 351 million women and girls could still be pushed into poverty by 2030.</p>
-                            <a href="https://news.un.org/en/story/2025/09/1165892" class="btn btn-primary" target="_blank">Read Full Story</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6" data-aos="fade-left">
-                    <div class="card news-card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Gaza: Top independent rights probe alleges Israel committed genocide</h5>
-                            <p class="news-date">September 16, 2025</p>
-                            <p class="card-text">Israeli strike in Doha marks 'alarming escalation', warns top UN official, in call to uphold diplomatic norms during ongoing human rights crisis.</p>
-                            <a href="https://news.un.org/en/story/2025/09/1165856" class="btn btn-primary" target="_blank">Read Full Story</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6" data-aos="fade-right" data-aos-delay="100">
-                    <div class="card news-card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">World News in Brief: Gaza and Nicaragua human rights update</h5>
-                            <p class="news-date">September 23, 2025</p>
-                            <p class="card-text">The UN agency for Palestine refugees, UNRWA, has confirmed that between 11 and 16 September, 12 of its staff were killed in Gaza amid escalating violations.</p>
-                            <a href="https://news.un.org/en/story/2025/09/1165921" class="btn btn-primary" target="_blank">Read Full Story</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6" data-aos="fade-left" data-aos-delay="100">
-                    <div class="card news-card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">UN Human Rights Chief: "We are failing the people of Gaza"</h5>
-                            <p class="news-date">September 8, 2025</p>
-                            <p class="card-text">UN Human Rights Chief warns of failure to protect civilians in Gaza, calling for immediate ceasefire and accountability for violations.</p>
-                            <a href="https://www.un.org/unispal/document/ohchr-remarks-08sep25/" class="btn btn-primary" target="_blank">Read Full Story</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6" data-aos="fade-right" data-aos-delay="200">
-                    <div class="card news-card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Human Rights Watch | Defending Human Rights Worldwide</h5>
-                            <p class="news-date">September 19, 2025</p>
-                            <p class="card-text">EU's New India Strategy Overlooks Modi's Repression; Rights Should Guide Welfare 'Reform' Debate in Germany – global updates on pressing human rights issues.</p>
-                            <a href="https://www.hrw.org/" class="btn btn-primary" target="_blank">Read Full Story</a>
-                        </div>
-                    </div>
-                </div>
+            <div class="row g-4" id="news-container" style="display: none;">
+                <!-- News articles will be dynamically inserted here -->
             </div>
             <div class="text-center mt-5">
                 <a href="#" class="btn cta-btn btn-lg">Subscribe to News Alerts</a>
@@ -454,19 +409,19 @@
         <div class="container text-center">
             <h2 class="mb-5 fw-bold">Our Impact</h2>
             <div class="row g-4">
-                <div class="col-md-3" data-aos="bounce-in">
+                <div class="col-md-3 col-sm-6" data-aos="bounce-in">
                     <div class="impact-counter" id="incidents-logged">0</div>
                     <p class="fw-bold">Incidents Logged</p>
                 </div>
-                <div class="col-md-3" data-aos="bounce-in" data-aos-delay="100">
+                <div class="col-md-3 col-sm-6" data-aos="bounce-in" data-aos-delay="100">
                     <div class="impact-counter" id="verified-cases">0</div>
                     <p class="fw-bold">Verified Cases Published</p>
                 </div>
-                <div class="col-md-3" data-aos="bounce-in" data-aos-delay="200">
+                <div class="col-md-3 col-sm-6" data-aos="bounce-in" data-aos-delay="200">
                     <div class="impact-counter" id="districts-covered">0/64</div>
                     <p class="fw-bold">Districts Covered</p>
                 </div>
-                <div class="col-md-3" data-aos="bounce-in" data-aos-delay="300">
+                <div class="col-md-3 col-sm-6" data-aos="bounce-in" data-aos-delay="300">
                     <div class="impact-counter" id="partners">0</div>
                     <p class="fw-bold">Partner Organizations</p>
                 </div>
@@ -741,6 +696,119 @@
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
+
+        // Lazy load images
+        lazyload();
+
+        // Real-time Human Rights News Fetch with NewsAPI
+        async function fetchHumanRightsNews() {
+            const apiKey = 'YOUR_NEWSAPI_KEY'; // Replace with your NewsAPI key
+            const url = `https://newsapi.org/v2/everything?q="human rights" AND "Bangladesh"&sortBy=publishedAt&language=en&apiKey=${apiKey}`;
+            const cacheKey = 'humanRightsNewsBangladesh';
+            const cacheTimeKey = 'humanRightsNewsTime';
+            const cachedData = localStorage.getItem(cacheKey);
+            const cachedTime = localStorage.getItem(cacheTimeKey);
+            const currentTime = new Date().getTime();
+            const oneDay = 24 * 60 * 60 * 1000; // Cache for 24 hours
+
+            if (cachedData && cachedTime && (currentTime - cachedTime < oneDay)) {
+                return JSON.parse(cachedData);
+            } else {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    const data = await response.json();
+                    if (data.articles && data.articles.length > 0) {
+                        const filteredArticles = data.articles.slice(0, 5).map(article => ({
+                            title: article.title,
+                            description: article.description || 'No description available.',
+                            url: article.url,
+                            published_at: article.publishedAt
+                        }));
+                        localStorage.setItem(cacheKey, JSON.stringify(filteredArticles));
+                        localStorage.setItem(cacheTimeKey, currentTime);
+                        return filteredArticles;
+                    }
+                } catch (error) {
+                    console.error('Error fetching news:', error);
+                }
+                // Fallback to static news if fetch fails or no data
+                return [
+                    {
+                        title: "Bangladesh: Year since Hasina Fled, Rights Challenges Abound",
+                        description: "The interim Bangladesh government of Mohammed Yunus is falling short in implementing its challenging human rights agenda a year after Sheikh Hasina fled the country.",
+                        url: "https://www.hrw.org/news/2025/07/30/bangladesh-year-since-hasina-fled-rights-challenges-abound",
+                        published_at: "2025-07-30T00:00:00Z"
+                    },
+                    {
+                        title: "Bangladesh protests probe reveals top leaders led brutal repression",
+                        description: "Alleged crimes in Bangladesh against the student-led protest included 'hundreds of extrajudicial killings, extensive arbitrary arrest and detention, and widespread torture.'",
+                        url: "https://news.un.org/en/story/2025/02/1160046",
+                        published_at: "2025-02-12T00:00:00Z"
+                    },
+                    {
+                        title: "Bangladesh Falters on Rights Reform",
+                        description: "Human Rights Watch urged the interim government to end arbitrary arrests, disband abusive forces like the Rapid Action Battalion, and ensure accountability for past abuses.",
+                        url: "https://liberties.aljazeera.com/en/bangladesh-falters-on-rights-reform/",
+                        published_at: "2025-07-31T00:00:00Z"
+                    },
+                    {
+                        title: "Human rights in Bangladesh",
+                        description: "Religious minorities and Indigenous Peoples faced violence. Garment workers continued to suffer intimidation, harassment and repression of their rights to organize.",
+                        url: "https://www.amnesty.org/en/location/asia-and-the-pacific/south-asia/bangladesh/report-bangladesh/",
+                        published_at: "2025-01-01T00:00:00Z"
+                    },
+                    {
+                        title: "Bangladesh: Review Laws and Protect Human Rights Standards",
+                        description: "Legislative initiatives threaten fundamental rights, including surveillance and arbitrary detentions. Over 700 enforced disappearances documented under prior regime.",
+                        url: "https://www.hrw.org/news/2025/05/21/bangladesh-review-laws-and-protect-human-rights-standards",
+                        published_at: "2025-05-21T00:00:00Z"
+                    }
+                ];
+            }
+        }
+
+        async function displayNews() {
+            const newsContainer = document.getElementById('news-container');
+            const newsLoading = document.getElementById('news-loading');
+            newsContainer.innerHTML = ''; // Clear existing content
+
+            try {
+                const newsData = await fetchHumanRightsNews();
+                newsLoading.style.display = 'none';
+                newsContainer.style.display = 'flex';
+
+                newsData.forEach((article, index) => {
+                    const publishedDate = new Date(article.published_at).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                    const card = `
+                        <div class="col-md-6 col-sm-12" data-aos="fade-${index % 2 === 0 ? 'right' : 'left'}" data-aos-delay="${index * 100}">
+                            <div class="card news-card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold">${article.title}</h5>
+                                    <p class="news-date">${publishedDate}</p>
+                                    <p class="card-text">${article.description}</p>
+                                    <a href="${article.url}" class="btn btn-primary" target="_blank">Read Full Story</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    newsContainer.insertAdjacentHTML('beforeend', card);
+                });
+            } catch (error) {
+                console.error('Error displaying news:', error);
+                newsLoading.innerHTML = '<p class="text-danger">Failed to load news. Please try again later.</p>';
+            }
+        }
+
+        // Load news on page load
+        document.addEventListener('DOMContentLoaded', displayNews);
+
+        // Auto-refresh news daily
+        setInterval(displayNews, 24 * 60 * 60 * 1000); // Refresh every 24 hours
     </script>
 </body>
 </html>
